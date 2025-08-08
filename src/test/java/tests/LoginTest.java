@@ -8,7 +8,13 @@ public class LoginTest extends BaseTest {
 
     @Test
     public void testGoogleTitle() {
-        String title = page.title();
-        Assert.assertTrue(title.contains("Google"), "Title does not contain Google!");
+        page.navigate("https://www.google.com");
+        Assert.assertTrue(page.title().contains("Google"));
+    }
+
+    @Test
+    public void failingTest() {
+        page.navigate("https://www.google.com");
+        Assert.assertTrue(page.title().contains("Bing")); // Will fail & take screenshot
     }
 }
