@@ -1,13 +1,14 @@
 package tests;
 
-import base.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+@Listeners(TestListener.class)
 public class LoginTest extends BaseTest {
 
     @Test
-    public void testGoogleTitle() {
+    public void googleSearch() {
         page.navigate("https://www.google.com");
         Assert.assertTrue(page.title().contains("Google"));
     }
@@ -15,6 +16,6 @@ public class LoginTest extends BaseTest {
     @Test
     public void failingTest() {
         page.navigate("https://www.google.com");
-        Assert.assertTrue(page.title().contains("Bing")); // Will fail & take screenshot
+        Assert.assertTrue(page.title().contains("Bing")); // Intentional fail
     }
 }
