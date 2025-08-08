@@ -1,44 +1,33 @@
 package base;
 
 import com.microsoft.playwright.*;
-import org.testng.annotations.*;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import utils.ConfigReader;
+
+import java.nio.file.Paths;
 
 public class BaseTest {
     protected Playwright playwright;
     protected Browser browser;
-    protected BrowserContext context;
     protected Page page;
-    protected String baseUrl;
-
-    @BeforeSuite
-    public void setupSuite() {
-        ConfigReader.loadProperties();
-        System.out.println("Loaded baseUrl: " + ConfigReader.getProperty("baseUrl")); // Debug line
-    }
-
 
     @BeforeMethod
-    public void setup() {
+    public void setUp() {
         playwright = Playwright.create();
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-        context = browser.newContext();
-        page = context.newPage();
-
-        baseUrl = ConfigReader.getProperty("baseUrl");
-
-        if (baseUrl == null || baseUrl.isEmpty()) {
-            throw new RuntimeException("baseUrl not found in config.properties. Please check the file.");
-        }
-
-        page.navigate(baseUrl);
+        page = browser.newPage();
+        page.navigate(ConfigReader.getProperty("baseUrl"));
     }
 
-
     @AfterMethod
-    public void tearDown() {
-        if (playwright != null) {
-            playwright.close();
+    public void tearDown(ITestResult result) {
+        if (ITestResult.FAILURE == result.getStatus()) {
+            page.screenshot(new Page.ScreenshotOptions()
+                    .setPath(Paths.get("screenshots/" + result.getName() + ".png")));
         }
+        browser.close();
+        playwright.close();
     }
 }
