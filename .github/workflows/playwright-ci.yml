@@ -1,6 +1,10 @@
 name: Java CI with Maven
 
 on:
+  schedule:
+    # Runs every day at 2:00 AM UTC (adjust timing as needed)
+    - cron: "*/1 * * * *"
+  workflow_dispatch: # Allows manual trigger
   push:
     branches: [ "main" ]
   pull_request:
@@ -21,5 +25,5 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build with Maven (skip tests)
-        run: mvn clean install -DskipTests
+      - name: Run Playwright Tests
+        run: mvn clean test
