@@ -1,19 +1,13 @@
-name: Java CI with Maven
+name: Playwright Java CI
 
 on:
   schedule:
-    # Runs every day at 2:00 AM UTC (adjust timing as needed)
-    - cron: "*/1 * * * *"
-  workflow_dispatch: # Allows manual trigger
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    - cron: "*/1 * * * *" # Runs every 1 minute
+  workflow_dispatch:
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -23,8 +17,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: maven
 
-      -  name: Run Playwright Tests
-         run: mvn clean test || true
+      - name: Install dependencies
+        run: mvn install -DskipTests
 
+      - name: Run Tests
+        run: mvn test
