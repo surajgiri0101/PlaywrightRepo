@@ -13,7 +13,7 @@ public class BaseTest {
 
     @Parameters({"headless"})
     @BeforeMethod
-    public void setUp(@Optional("false") String headless) {
+    public void setUp(@Optional("true") String headless) {
         playwright = Playwright.create();
         browser = playwright.chromium().launch(
                 new BrowserType.LaunchOptions().setHeadless(Boolean.parseBoolean(headless))
