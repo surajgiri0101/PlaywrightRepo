@@ -1,36 +1,40 @@
-name: Playwright Java CI
+name: Playwright Java Automation
 
 on:
-  push:
+  workflow_dispatch: # Manual trigger
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 6 * * *" # Runs daily at 6 AM UTC
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        headless: [true, false]
+
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: temurin
-          java-version: 17
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Install browsers
-        run: mvn exec:java -e -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
+      - name: Cache Maven Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-      - name: Run Tests
-        run: mvn clean test -Dheadless=${{ matrix.headless }}
+      - name: Install Dependencies
+        run: mvn install -DskipTests
 
-      - name: Show Test Report
-        run: cat target/surefire-reports/*.txt
+      - name: Run Playwright Tests (Non-Headless)
+        run: mvn test -Dheadless=false
 
-      - name: Upload HTML Reports
+      - name: Upload Extent Report
         uses: actions/upload-artifact@v3
         with:
-          name: test-reports
-          path: target/surefire-reports/
+          name: ExtentReport
+          path: target/*.html
