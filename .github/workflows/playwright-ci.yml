@@ -1,40 +1,28 @@
-name: Playwright Java Automation
+name: Playwright Java Tests (Non-Headless)
 
 on:
   workflow_dispatch: # Manual trigger
-  schedule:
-    - cron: "0 6 * * *" # Runs daily at 6 AM UTC
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: 17
 
-      - name: Cache Maven Dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      - name: Install browsers
+        run: mvn exec:java -e -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
 
-      - name: Install Dependencies
-        run: mvn install -DskipTests
+      - name: Install XVFB (Virtual Display)
+        run: sudo apt-get install -y xvfb
 
-      - name: Run Playwright Tests (Non-Headless)
-        run: xvfb-run mvn test -Dheadless=false
-
-      - name: Upload Extent Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: ExtentReport
-          path: target/*.html
+      - name: Run Tests in Non-Headless Mode
+        run: |
+          xvfb-run mvn clean test
