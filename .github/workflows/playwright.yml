@@ -1,16 +1,23 @@
 name: Playwright Java Tests
 
 on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
   schedule:
-    - cron: "*/5 * * * *"  # every 5 minutes
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -29,18 +36,41 @@ jobs:
       - name: Install Playwright Browsers
         run: mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
 
-      - name: Run Tests
+      - name: Run Playwright Tests
         run: mvn clean test
+        continue-on-error: false
 
-      - name: Show test reports
+      - name: Upload Surefire XML Reports
         if: always()
-        run: cat target/surefire-reports/*.txt
-
-      - name: Upload Extent HTML Report
         uses: actions/upload-artifact@v4
         with:
-          name: extent-report
-          path: target/extent-report.html
+          name: surefire-reports
+          path: target/surefire-reports/
 
+      - name: Upload Extent HTML Report (UI Level)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-html-report
+          path: |
+            target/extent-report.html
+            target/extent-report/*.html
 
-        
+      - name: Upload Screenshots & Videos (UI Failures)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            target/screenshots/
+            target/videos/
+            target/playwright-report/
+
+      - name: Display Surefire Test Summary
+        if: always()
+        run: |
+          for file in target/surefire-reports/*.txt; do
+            echo "=== $file ==="
+            cat "$file"
+            echo
+          done
