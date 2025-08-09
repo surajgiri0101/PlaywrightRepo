@@ -1,23 +1,16 @@
 name: Playwright Java Tests
 
 on:
-  push:
-    branches:
-      - main
-      - master
-  pull_request:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/5 * * * *" # Every 5 minutes
   workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -36,41 +29,21 @@ jobs:
       - name: Install Playwright Browsers
         run: mvn exec:java -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
 
-      - name: Run Playwright Tests
-        run: mvn clean test
-        continue-on-error: false
+      # Run tests in headless mode
+      - name: Run Tests - Headless
+        run: mvn clean test -Dheadless=true
 
-      - name: Upload Surefire XML Reports
-        if: always()
+      # Run tests in headed mode using xvfb for GUI
+      - name: Run Tests - Headed (Non-Headless)
+        run: xvfb-run --auto-servernum --server-args='-screen 0 1024x768x24' mvn test -Dheadless=false
+
+      # Show console test report in logs
+      - name: Show Test Reports
+        run: cat target/surefire-reports/*.txt
+
+      # Upload HTML reports as artifact
+      - name: Upload Test Reports
         uses: actions/upload-artifact@v4
         with:
-          name: surefire-reports
-          path: target/surefire-reports/
-
-      - name: Upload Extent HTML Report (UI Level)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: extent-html-report
-          path: |
-            target/extent-report.html
-            target/extent-report/*.html
-
-      - name: Upload Screenshots & Videos (UI Failures)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: playwright-artifacts
-          path: |
-            target/screenshots/
-            target/videos/
-            target/playwright-report/
-
-      - name: Display Surefire Test Summary
-        if: always()
-        run: |
-          for file in target/surefire-reports/*.txt; do
-            echo "=== $file ==="
-            cat "$file"
-            echo
-          done
+          name: playwright-test-reports
+          path: target/surefire-reports
