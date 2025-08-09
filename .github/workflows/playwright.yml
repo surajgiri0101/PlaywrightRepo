@@ -8,6 +8,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -34,3 +35,12 @@ jobs:
       - name: Show test reports
         if: always()
         run: cat target/surefire-reports/*.txt
+
+      - name: Upload Extent HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-report
+          path: target/extent-report.html
+
+
+        
