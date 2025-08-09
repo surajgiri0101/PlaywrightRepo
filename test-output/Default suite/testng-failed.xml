@@ -5,9 +5,9 @@
     <classes>
       <class name="tests.SampleTest">
         <methods>
-          <include name="setUp"/>
-          <include name="tearDown"/>
-          <include name="openGoogle"/>
+          <include name="testGoogleSearch"/>
+          <include name="teardown"/>
+          <include name="setup"/>
         </methods>
       </class> <!-- tests.SampleTest -->
     </classes>

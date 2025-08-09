@@ -1,6 +1,9 @@
 package tests;
 
 import com.microsoft.playwright.*;
+
+import java.nio.file.Paths;
+
 import org.testng.annotations.*;
 
 public class SampleTest {
@@ -16,7 +19,7 @@ public class SampleTest {
                 new BrowserType.LaunchOptions()
                         .setHeadless(false) // NON-HEADLESS mode
         );
-        context = browser.newContext();
+        context = browser.newContext(new Browser.NewContextOptions().setRecordVideoDir(Paths.get("videos/")));
         page = context.newPage();
     }
 
