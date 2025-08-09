@@ -12,7 +12,11 @@ public class BaseTest {
     @BeforeMethod
     public void setup() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
+        boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "true"));
+        Browser browser = playwright.chromium().launch(
+            new BrowserType.LaunchOptions().setHeadless(isHeadless)
+        );
+
         context = browser.newContext();
         page = context.newPage();
     }
