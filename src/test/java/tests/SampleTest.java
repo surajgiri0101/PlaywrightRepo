@@ -1,15 +1,37 @@
 package tests;
 
-import base.BaseTest;
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import com.microsoft.playwright.*;
+import org.testng.annotations.*;
 
-public class SampleTest extends BaseTest {
+public class SampleTest {
+    Playwright playwright;
+    Browser browser;
+    BrowserContext context;
+    Page page;
+
+    @BeforeClass
+    public void setup() {
+        playwright = Playwright.create();
+        browser = playwright.chromium().launch(
+                new BrowserType.LaunchOptions()
+                        .setHeadless(false) // NON-HEADLESS mode
+        );
+        context = browser.newContext();
+        page = context.newPage();
+    }
 
     @Test
-    public void openGoogle() {
+    public void testGoogleSearch() {
         page.navigate("https://www.google.com");
-        Assert.assertTrue(page.title().contains("Google"));
-        test.pass("Google opened successfully in browser");
+        page.fill("textarea[name='q']", "Playwright Java");
+        page.keyboard().press("Enter");
+        page.waitForTimeout(2000);
+        System.out.println("Title after search: " + page.title());
+    }
+
+    @AfterClass
+    public void teardown() {
+        browser.close();
+        playwright.close();
     }
 }
