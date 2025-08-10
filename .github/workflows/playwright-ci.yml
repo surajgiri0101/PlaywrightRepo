@@ -1,10 +1,7 @@
-name: Playwright Java Tests
+name: Playwright Java Tests (Non-Headless)
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch: # Manual trigger
 
 jobs:
   test:
@@ -17,23 +14,15 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: 17
 
-      - name: Install dependencies
-        run: mvn install -DskipTests
+      - name: Install browsers
+        run: mvn exec:java -e -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
 
-      - name: Run Playwright tests (non-headless)
-        run: mvn test -Dheadless=false
+      - name: Install XVFB (Virtual Display)
+        run: sudo apt-get install -y xvfb
 
-      - name: List generated files
-        run: ls -R
-
-      - name: Upload Reports
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-reports
-          path: |
-            reports/**
-            target/surefire-reports/**
-            screenshots/**
+      - name: Run Tests in Non-Headless Mode
+        run: |
+          xvfb-run mvn clean test
