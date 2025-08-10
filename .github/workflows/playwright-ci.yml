@@ -1,7 +1,9 @@
 name: Playwright Java Tests (Non-Headless)
 
 on:
-  workflow_dispatch: # Manual trigger
+  schedule:
+    - cron: "*/5 * * * *"  # every 5 minutes
+  workflow_dispatch:        # still allow manual trigger
 
 jobs:
   test:
@@ -32,4 +34,3 @@ jobs:
         with:
           name: browser-videos
           path: videos
-
