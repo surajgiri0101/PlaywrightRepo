@@ -1,61 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="1" passed="0" failed="1" skipped="0">
+<testng-results ignored="0" total="2" passed="1" failed="1" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2025-08-09T18:14:13 IST" name="Default suite" finished-at="2025-08-09T18:14:45 IST" duration-ms="32044">
+  <suite started-at="2025-08-10T14:39:33 IST" name="PlaywrightDemoSuite" finished-at="2025-08-10T14:40:16 IST" duration-ms="43277">
     <groups>
     </groups>
-    <test started-at="2025-08-09T18:14:13 IST" name="Default test" finished-at="2025-08-09T18:14:45 IST" duration-ms="32044">
+    <test started-at="2025-08-10T14:39:33 IST" name="DemoTests" finished-at="2025-08-10T14:40:16 IST" duration-ms="43277">
       <class name="tests.SampleTest">
-        <test-method is-config="true" signature="setup()[pri:0, instance:tests.SampleTest@1a6d8329]" started-at="2025-08-09T18:14:13 IST" name="setup" finished-at="2025-08-09T18:14:41 IST" duration-ms="28636" status="PASS">
+        <test-method is-config="true" signature="setupReport()[pri:0, instance:tests.SampleTest@7526515b]" started-at="2025-08-10T14:39:32 IST" name="setupReport" finished-at="2025-08-10T14:39:33 IST" duration-ms="524" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setupReport -->
+        <test-method is-config="true" signature="setup()[pri:0, instance:tests.SampleTest@7526515b]" started-at="2025-08-10T14:39:33 IST" name="setup" finished-at="2025-08-10T14:40:01 IST" duration-ms="27814" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method signature="testGoogleSearch()[pri:0, instance:tests.SampleTest@1a6d8329]" started-at="2025-08-09T18:14:41 IST" name="testGoogleSearch" finished-at="2025-08-09T18:14:44 IST" duration-ms="2566" status="FAIL">
-          <exception class="com.microsoft.playwright.impl.TargetClosedError">
+        <test-method signature="testGoogleSearch()[pri:0, instance:tests.SampleTest@7526515b]" started-at="2025-08-10T14:40:01 IST" name="testGoogleSearch" finished-at="2025-08-10T14:40:06 IST" duration-ms="5140" status="FAIL">
+          <exception class="java.lang.AssertionError">
             <message>
-              <![CDATA[Error {
-  message='Target page, context or browser has been closed
-  name='TargetClosedError
-  stack='TargetClosedError:Target page, context or browser has been closed
-Error
-    at captureRawStack (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\utils\stackTrace.js:49:17)
-    at LongStandingScope._race (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\utils\manualPromise.js:91:52)
-    at LongStandingScope.race (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\utils\manualPromise.js:84:17)
-    at FrameDispatcher._handleCommand (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\server\dispatchers\dispatcher.js:96:36)
-    at DispatcherConnection.dispatch (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\server\dispatchers\dispatcher.js:361:39)
-}
-Call log:
-- navigating to "https://www.google.com/", waiting until "load"
-]]>
+              <![CDATA[Title validation failed! expected [true] but found [false]]]>
             </message>
             <full-stacktrace>
-              <![CDATA[com.microsoft.playwright.impl.TargetClosedError: Error {
-  message='Target page, context or browser has been closed
-  name='TargetClosedError
-  stack='TargetClosedError:Target page, context or browser has been closed
-Error
-    at captureRawStack (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\utils\stackTrace.js:49:17)
-    at LongStandingScope._race (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\utils\manualPromise.js:91:52)
-    at LongStandingScope.race (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\utils\manualPromise.js:84:17)
-    at FrameDispatcher._handleCommand (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\server\dispatchers\dispatcher.js:96:36)
-    at DispatcherConnection.dispatch (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\server\dispatchers\dispatcher.js:361:39)
-}
-Call log:
-- navigating to "https://www.google.com/", waiting until "load"
-
-at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:54)
-at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:120)
-at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:130)
-at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:106)
-at com.microsoft.playwright.impl.FrameImpl.navigateImpl(FrameImpl.java:463)
-at com.microsoft.playwright.impl.PageImpl.lambda$navigate$46(PageImpl.java:932)
-at com.microsoft.playwright.impl.LoggingSupport.withLogging(LoggingSupport.java:47)
-at com.microsoft.playwright.impl.ChannelOwner.withLogging(ChannelOwner.java:89)
-at com.microsoft.playwright.impl.PageImpl.navigate(PageImpl.java:932)
-at com.microsoft.playwright.impl.PageImpl.navigate(PageImpl.java:42)
-at com.microsoft.playwright.Page.navigate(Page.java:5504)
-at tests.SampleTest.testGoogleSearch(SampleTest.java:25)
+              <![CDATA[java.lang.AssertionError: Title validation failed! expected [true] but found [false]
+at org.testng.Assert.fail(Assert.java:111)
+at org.testng.Assert.failNotEquals(Assert.java:1590)
+at org.testng.Assert.assertTrue(Assert.java:57)
+at tests.SampleTest.testGoogleSearch(SampleTest.java:62)
 at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
 at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -84,35 +54,47 @@ at org.testng.TestNG.run(TestNG.java:1079)
 at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:115)
 at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:293)
 at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:91)
-Caused by: com.microsoft.playwright.impl.TargetClosedError: Error {
-  message='Target page, context or browser has been closed
-  name='TargetClosedError
-  stack='TargetClosedError:Target page, context or browser has been closed
-Error
-    at captureRawStack (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\utils\stackTrace.js:49:17)
-    at LongStandingScope._race (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\utils\manualPromise.js:91:52)
-    at LongStandingScope.race (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\utils\manualPromise.js:84:17)
-    at FrameDispatcher._handleCommand (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\server\dispatchers\dispatcher.js:96:36)
-    at DispatcherConnection.dispatch (C:\Users\SURAJ~1.GIR\AppData\Local\Temp\playwright-java-15305691667204248616\package\lib\server\dispatchers\dispatcher.js:361:39)
-}
-Call log:
-- navigating to "https://www.google.com/", waiting until "load"
-
-at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:256)
-at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:211)
-at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:118)
-... 38 more
 ]]>
             </full-stacktrace>
-          </exception> <!-- com.microsoft.playwright.impl.TargetClosedError -->
+          </exception> <!-- java.lang.AssertionError -->
           <reporter-output>
           </reporter-output>
         </test-method> <!-- testGoogleSearch -->
-        <test-method is-config="true" signature="teardown()[pri:0, instance:tests.SampleTest@1a6d8329]" started-at="2025-08-09T18:14:44 IST" name="teardown" finished-at="2025-08-09T18:14:45 IST" duration-ms="696" status="PASS">
+        <test-method is-config="true" signature="captureFailure(org.testng.ITestResult)[pri:0, instance:tests.SampleTest@7526515b]" started-at="2025-08-10T14:40:06 IST" name="captureFailure" finished-at="2025-08-10T14:40:07 IST" duration-ms="900" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=testGoogleSearch status=FAILURE method=SampleTest.testGoogleSearch()[pri:0, instance:tests.SampleTest@7526515b] output={null}]]]>
+              </value>
+            </param>
+          </params>
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- teardown -->
+        </test-method> <!-- captureFailure -->
+        <test-method signature="testLoginPage()[pri:0, instance:tests.SampleTest@7526515b]" started-at="2025-08-10T14:40:07 IST" name="testLoginPage" finished-at="2025-08-10T14:40:15 IST" duration-ms="7746" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testLoginPage -->
+        <test-method is-config="true" signature="captureFailure(org.testng.ITestResult)[pri:0, instance:tests.SampleTest@7526515b]" started-at="2025-08-10T14:40:15 IST" name="captureFailure" finished-at="2025-08-10T14:40:15 IST" duration-ms="2" status="PASS">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[[TestResult name=testLoginPage status=SUCCESS method=SampleTest.testLoginPage()[pri:0, instance:tests.SampleTest@7526515b] output={null}]]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- captureFailure -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:tests.SampleTest@7526515b]" started-at="2025-08-10T14:40:15 IST" name="tearDown" finished-at="2025-08-10T14:40:16 IST" duration-ms="1554" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDown -->
+        <test-method is-config="true" signature="tearDownReport()[pri:0, instance:tests.SampleTest@7526515b]" started-at="2025-08-10T14:40:16 IST" name="tearDownReport" finished-at="2025-08-10T14:40:17 IST" duration-ms="1074" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownReport -->
       </class> <!-- tests.SampleTest -->
-    </test> <!-- Default test -->
-  </suite> <!-- Default suite -->
+    </test> <!-- DemoTests -->
+  </suite> <!-- PlaywrightDemoSuite -->
 </testng-results>
