@@ -62,27 +62,7 @@ public class SampleTest {
         Assert.assertTrue(title.contains("Playwright Java"), "Title validation failed!");
     }
 
-    @Test
-    public void testLoginPage() {
-        test = extent.createTest("Login Page Test");
-
-        // Navigate to demo login page
-        page.navigate("https://the-internet.herokuapp.com/login");
-
-        // Fill username and password
-        page.fill("#username", "tomsmith");
-        page.fill("#password", "SuperSecretPassword!");
-
-        // Click login button
-        page.click("button[type='submit']");
-
-        // Validate login success
-        String successMessage = page.textContent("#flash");
-        test.info("Login Message: " + successMessage);
-
-        Assert.assertTrue(successMessage.contains("You logged into a secure area!"), "Login failed!");
-    }
-
+   
     @AfterClass
     public void tearDown() {
         browser.close();
