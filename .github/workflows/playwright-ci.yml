@@ -1,28 +1,36 @@
-name: Playwright Java Tests (Non-Headless)
+name: Playwright Java Tests with Docker
 
 on:
-  workflow_dispatch: # Manual trigger
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
+      - name: Build Docker image
+        run: docker build -t playwright-java-demo .
+
+      - name: Run Playwright Tests in Docker
+        run: docker run --rm -v ${{ github.workspace }}/reports:/app/reports -v ${{ github.workspace }}/screenshots:/app/screenshots -v ${{ github.workspace }}/videos:/app/videos playwright-java-demo
+
+      - name: Upload Reports
+        uses: actions/upload-artifact@v4
         with:
-          distribution: temurin
-          java-version: 17
+          name: extent-report
+          path: reports
 
-      - name: Install browsers
-        run: mvn exec:java -e -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: failed-screenshots
+          path: screenshots
 
-      - name: Install XVFB (Virtual Display)
-        run: sudo apt-get install -y xvfb
-
-      - name: Run Tests in Non-Headless Mode
-        run: |
-          xvfb-run mvn clean test
+      - name: Upload Videos
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-videos
+          path: videos
