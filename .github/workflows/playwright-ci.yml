@@ -1,9 +1,10 @@
-name: Playwright Java Tests (Non-Headless)
+name: Playwright Java Tests
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"  # every 5 minutes
-  workflow_dispatch:        # still allow manual trigger
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   test:
@@ -16,21 +17,32 @@ jobs:
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: 17
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Install browsers
-        run: mvn exec:java -e -Dexec.mainClass="com.microsoft.playwright.CLI" -Dexec.args="install"
+      - name: Install dependencies
+        run: mvn install -DskipTests
 
-      - name: Install XVFB (Virtual Display)
-        run: sudo apt-get install -y xvfb
+      - name: Run Playwright tests in non-headless mode
+        run: mvn test -Dheadless=false
 
-      - name: Run Tests in Non-Headless Mode
-        run: |
-          xvfb-run mvn clean test
-
-      - name: Upload video artifacts
+      # Upload Reports
+      - name: Upload HTML Reports
         uses: actions/upload-artifact@v4
         with:
-          name: browser-videos
-          path: videos
+          name: html-reports
+          path: reports/
+
+      # Upload Screenshots
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: screenshots/
+
+      # Optional: Upload Videos if Playwright records them
+      - name: Upload Videos
+        uses: actions/upload-artifact@v4
+        with:
+          name: videos
+          path: videos/
