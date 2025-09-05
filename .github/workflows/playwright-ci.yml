@@ -2,20 +2,27 @@ name: Playwright Java Tests with Docker
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
-  workflow_dispatch:
+    - cron: "30 16 * * *"   # Run every day at 10:00 PM IST (16:30 UTC)
+  workflow_dispatch:         # Allow manual trigger
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
       - name: Build Docker image
         run: docker build -t playwright-java-demo .
 
       - name: Run Playwright Tests in Docker
-        run: docker run --rm -v ${{ github.workspace }}/reports:/app/reports -v ${{ github.workspace }}/screenshots:/app/screenshots -v ${{ github.workspace }}/videos:/app/videos playwright-java-demo
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/reports:/app/reports \
+            -v ${{ github.workspace }}/screenshots:/app/screenshots \
+            -v ${{ github.workspace }}/videos:/app/videos \
+            playwright-java-demo
 
       - name: Upload Reports
         uses: actions/upload-artifact@v4
